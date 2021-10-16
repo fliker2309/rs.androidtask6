@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">androidtask6</string>
+    <string name="song_name">SONG NAME</string>
+    <string name="_00_00">00:00</string>
 </resources>
