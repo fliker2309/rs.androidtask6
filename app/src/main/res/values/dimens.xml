@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="song_duration_text_size">14sp</dimen>
+    <dimen name="start_dimen">16dp</dimen>
+    <dimen name="button_dimen">32dp</dimen>
+    <dimen name="bottom_items_dimen">60dp</dimen>
+    <dimen name="start_pause_size">75dp</dimen>
+    <dimen name="song_image_dimen">300dp</dimen>
+</resources>

@@ -2,14 +2,14 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/my_nav"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
-        android:id="@+id/mainFragment"
+        android:id="@+id/homeFragment"
         android:name="com.example.androidtask6.ui.home.HomeFragment"
         android:label="MainFragment" >
         <action
-            android:id="@+id/action_mainFragment_to_songDetailsFragment"
+            android:id="@+id/action_homeFragment_to_songDetailsFragment"
             app:destination="@id/songDetailsFragment" />
     </fragment>
     <fragment
@@ -17,7 +17,7 @@
         android:name="com.example.androidtask6.ui.details.SongDetailsFragment"
         android:label="SongDetailsFragment" >
         <action
-            android:id="@+id/action_songDetailsFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            android:id="@+id/action_songDetailsFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
 </navigation>
