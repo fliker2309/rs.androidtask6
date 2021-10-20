@@ -1,8 +1,9 @@
 package com.example.androidtask6.di
 
 import android.content.Context
-import coil.Coil
-import coil.request.CachePolicy
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.example.androidtask6.R
 import dagger.Module
 import dagger.Provides
@@ -19,8 +20,10 @@ object AppModule {
     @Provides
     fun provideCoilInstance(
         @ApplicationContext context: Context
-    ) = Coil.imageLoader(context).newBuilder()
-        .placeholder(R.drawable.ic_image)
-        .error(R.drawable.ic_image)
-        .diskCachePolicy(CachePolicy.ENABLED)
+    ) = Glide.with(context).setDefaultRequestOptions(
+        RequestOptions()
+            .placeholder(R.drawable.ic_image)
+            .error(R.drawable.ic_image)
+            .diskCacheStrategy(DiskCacheStrategy.DATA)
+    )
 }

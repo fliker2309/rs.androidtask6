@@ -62,7 +62,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1")
 
     // images
-    implementation("io.coil-kt:coil:1.3.2")
+    implementation("com.github.bumptech.glide:glide:4.11.0")
+    kapt("com.github.bumptech.glide:compiler:4.11.0")
 
     // network
     implementation("com.squareup.okhttp3:okhttp:4.9.1")
