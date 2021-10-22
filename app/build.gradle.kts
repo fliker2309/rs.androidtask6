@@ -65,20 +65,16 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.11.0")
     kapt("com.github.bumptech.glide:compiler:4.11.0")
 
-    // network
-    implementation("com.squareup.okhttp3:okhttp:4.9.1")
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.0")
-    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
-
     // dependency injection
-    implementation("com.google.dagger:hilt-android:2.38.1")
-    kapt("com.google.dagger:hilt-compiler:2.38.1")
+    implementation("com.google.dagger:hilt-android:2.39.1")
+    kapt("com.google.dagger:hilt-compiler:2.39.1")
 
+    // exoPlayer
     api("com.google.android.exoplayer:exoplayer-ui:2.15.1")
     api("com.google.android.exoplayer:extension-mediasession:2.15.1")
     api("com.google.android.exoplayer:exoplayer-core:2.15.1")
+
+    implementation("com.google.code.gson:gson:2.8.6")
 
     // tests
     testImplementation("junit:junit:4.13.2")

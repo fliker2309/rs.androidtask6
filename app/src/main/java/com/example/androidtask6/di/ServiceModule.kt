@@ -1,6 +1,7 @@
 package com.example.androidtask6.di
 
 import android.content.Context
+import com.example.androidtask6.data.database.MusicDatabase
 import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.audio.AudioAttributes
@@ -19,6 +20,10 @@ object ServiceModule {
 
     @ServiceScoped
     @Provides
+    fun provideMusicDatabase() = MusicDatabase()
+
+    @ServiceScoped
+    @Provides
     fun provideAudioAttributes() = AudioAttributes.Builder()
         .setContentType(C.CONTENT_TYPE_MUSIC)
         .setUsage(C.USAGE_MEDIA)
@@ -34,6 +39,7 @@ object ServiceModule {
         setHandleAudioBecomingNoisy(true)
     }
 
+    // work with it
     @ServiceScoped
     @Provides
     fun provideDataSourceFactory(
