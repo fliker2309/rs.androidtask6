@@ -73,8 +73,8 @@ dependencies {
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
 
     // dependency injection
-    implementation("com.google.dagger:hilt-android:2.39.1")
-    kapt("com.google.dagger:hilt-compiler:2.39.1")
+    implementation("com.google.dagger:hilt-android:2.38.1")
+    kapt("com.google.dagger:hilt-compiler:2.38.1")
 
     api("com.google.android.exoplayer:exoplayer-ui:2.15.1")
     api("com.google.android.exoplayer:extension-mediasession:2.15.1")
