@@ -1,6 +1,5 @@
 package com.example.androidtask6.exoplayer.callbacks
 
-
 import com.example.androidtask6.exoplayer.MusicService
 import com.google.android.exoplayer2.PlaybackException
 import com.google.android.exoplayer2.Player

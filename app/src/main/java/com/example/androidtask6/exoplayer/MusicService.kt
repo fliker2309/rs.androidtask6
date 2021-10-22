@@ -3,16 +3,13 @@ package com.example.androidtask6.exoplayer
 import android.app.PendingIntent
 import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
-import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.media.MediaBrowserServiceCompat
 import com.example.androidtask6.exoplayer.callbacks.MusicPlayerEventListener
 import com.example.androidtask6.exoplayer.callbacks.MusicPlayerNotificationListener
-import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
-import com.google.android.exoplayer2.ext.mediasession.TimelineQueueNavigator
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -61,30 +58,31 @@ class MusicService : MediaBrowserServiceCompat() {
         musicNotificationManager =
             MusicNotificationManager(
                 this,
-                sessionToken,
+                mediaSession.sessionToken,
                 MusicPlayerNotificationListener(this)
             ) {
+
             }
 
         mediaSessionConnector = MediaSessionConnector(mediaSession)
         mediaSessionConnector.setPlayer(exoPlayer)
-mediaSessionConnector.setQueueNavigator(MusicQueueNavigator())
+/*        mediaSessionConnector.setQueueNavigator(MusicQueueNavigator())*/
         exoPlayer.addListener(MusicPlayerEventListener(this))
         musicNotificationManager.showNotification(exoPlayer)
     }
 
-  /*  private inner class MusicQueueNavigator : TimelineQueueNavigator(mediaSession){
-        override fun getMediaDescription(player: Player, windowIndex: Int): MediaDescriptionCompat {
-          return
-        }
-    }*/
+    /*  private inner class MusicQueueNavigator : TimelineQueueNavigator(mediaSession){
+          override fun getMediaDescription(player: Player, windowIndex: Int): MediaDescriptionCompat {
+            return
+          }
+      }*/
 
     private fun preparePlayer(
         songs: List<MediaMetadataCompat>,
         itemToPlay: MediaMetadataCompat?,
         playNow: Boolean
     ) {
-        val curSongIndex = if(curPlayingSong == null) 0 else songs.indexOf(itemToPlay)
+        val curSongIndex = if (curPlayingSong == null) 0 else songs.indexOf(itemToPlay)
         exoPlayer.prepare()
         exoPlayer.seekTo(curSongIndex, 0L)
         exoPlayer.playWhenReady = playNow
@@ -100,13 +98,11 @@ mediaSessionConnector.setQueueNavigator(MusicQueueNavigator())
         clientUid: Int,
         rootHints: Bundle?
     ): BrowserRoot? {
-
     }
 
     override fun onLoadChildren(
         parentId: String,
         result: Result<MutableList<MediaBrowserCompat.MediaItem>>
     ) {
-
     }
 }
