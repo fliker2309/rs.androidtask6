@@ -10,11 +10,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.example.androidtask6.R
+import com.example.androidtask6.other.Constants.NOTIFICATION_CHANNEL_ID
+import com.example.androidtask6.other.Constants.NOTIFICATION_ID
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
-
-const val NOTIFICATION_CHANNEL_ID = "Music"
-const val NOTIFICATION_ID = 1
 
 class MusicNotificationManager(
     private val context: Context,

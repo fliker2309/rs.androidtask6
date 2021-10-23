@@ -1,10 +1,10 @@
 package com.example.androidtask6.data.entities
 
+import com.squareup.moshi.Json
+
 data class Song(
-    //mediaId??
-    val title: String = "",
-    val artist: String = "",
-    val bitmapUri: String = "",
-    val trackUri: String = "",
-    val duration: Long
+    @Json(name = "title") val title: String,
+    @Json(name = "artist") val artist: String,
+    @Json(name = "trackUri") val trackUri: String,
+    @Json(name = "bitmapUri") val bitmapUri: String
 )

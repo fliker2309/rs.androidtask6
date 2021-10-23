@@ -4,6 +4,7 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     id("androidx.navigation.safeargs.kotlin")
+
 }
 
 android {
@@ -75,9 +76,15 @@ dependencies {
     api("com.google.android.exoplayer:exoplayer-core:2.15.1")
 
     implementation("com.google.code.gson:gson:2.8.6")
+    implementation("com.squareup.moshi:moshi-kotlin:1.12.0")
 
     // tests
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+}
+kapt {
+    javacOptions {
+        option("-Adagger.hilt.android.internal.disableAndroidSuperclassValidation=true")
+    }
 }

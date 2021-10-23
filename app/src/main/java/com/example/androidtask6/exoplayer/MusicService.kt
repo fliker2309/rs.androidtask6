@@ -11,11 +11,12 @@ import androidx.media.MediaBrowserServiceCompat
 import com.example.androidtask6.exoplayer.callbacks.MusicPlaybackPreparer
 import com.example.androidtask6.exoplayer.callbacks.MusicPlayerEventListener
 import com.example.androidtask6.exoplayer.callbacks.MusicPlayerNotificationListener
+import com.example.androidtask6.other.Constants.MEDIA_ROOT_ID
+import com.example.androidtask6.other.Constants.SERVICE_TAG
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.ext.mediasession.TimelineQueueNavigator
-import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -23,9 +24,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import javax.inject.Inject
-
-private const val SERVICE_TAG = "Music_Service"
-private const val MEDIA_ROOT_ID = "root_id"
 
 @AndroidEntryPoint
 class MusicService : MediaBrowserServiceCompat() {
@@ -112,7 +110,7 @@ class MusicService : MediaBrowserServiceCompat() {
     private fun preparePlayer(
         songs: List<MediaMetadataCompat>,
         itemToPlay: MediaMetadataCompat?,
-        playNow: Boolean //watch this!
+        playNow: Boolean
     ) {
         val curSongIndex = if (curPlayingSong == null) 0 else songs.indexOf(itemToPlay)
         exoPlayer.setMediaSource(musicSource.asMediaSource(dataSourceFactory))
@@ -151,11 +149,7 @@ class MusicService : MediaBrowserServiceCompat() {
                 if (!isPlayerInitialized && musicSource.songs.isNotEmpty()) {
                     preparePlayer(musicSource.songs, musicSource.songs[0], playNow = false)
                 }
-
             }
-
         }
     }
-
 }
-
