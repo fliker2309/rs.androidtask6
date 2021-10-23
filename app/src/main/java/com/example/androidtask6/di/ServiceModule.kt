@@ -20,7 +20,7 @@ object ServiceModule {
 
     @ServiceScoped
     @Provides
-    fun provideMusicDatabase() = MusicDatabase()
+    fun provideMusicDatabase(@ApplicationContext context: Context) = MusicDatabase(context)
 
     @ServiceScoped
     @Provides
@@ -39,7 +39,6 @@ object ServiceModule {
         setHandleAudioBecomingNoisy(true)
     }
 
-    // work with it
     @ServiceScoped
     @Provides
     fun provideDataSourceFactory(

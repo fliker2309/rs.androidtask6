@@ -1,23 +1,30 @@
 package com.example.androidtask6.data.database
 
+import android.content.Context
+import com.example.androidtask6.R
 import com.example.androidtask6.data.entities.Song
-import com.google.common.reflect.TypeToken
-import com.google.gson.Gson
-import java.io.FileReader
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import javax.inject.Inject
 
-class MusicDatabase {
-    fun getAllSongs(jsonFileName: String): List<Song> {
-        return parseWithGson(jsonFileName)
-    }
+class MusicDatabase @Inject constructor(
+    private val context: Context
+) {
 
-    private fun parseWithGson(fileName: String): List<Song> {
-        val fileReader = FileReader(fileName)
+    fun getPlaylist(): List<Song>? {
 
-        val songListType = object : TypeToken<List<Song>>() {}.type
+        val moshi = Moshi.Builder()
+            .add(KotlinJsonAdapterFactory())
+            .build()
 
-        val songs: List<Song> = Gson().fromJson(fileReader, songListType)
+        val listType = Types.newParameterizedType(List::class.java, Song::class.java)
+        val adapter: JsonAdapter<List<Song>> = moshi.adapter(listType)
 
-        fileReader.close()
-        return songs
+        val jsonPlaylist = context.resources.openRawResource(R.raw.playlist)
+            .bufferedReader().use { it.readText() }
+
+        return adapter.fromJson(jsonPlaylist)
     }
 }
