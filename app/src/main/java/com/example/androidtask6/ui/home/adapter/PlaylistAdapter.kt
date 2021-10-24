@@ -7,20 +7,12 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-
 import com.example.androidtask6.R
 import com.example.androidtask6.data.entities.Song
 import com.example.androidtask6.databinding.ListItemBinding
 
-
-//typealias?
-interface SongActionListener {
-    fun onSongClick(song: Song)
-}
-
 class PlaylistAdapter(private val actionListener: SongActionListener) :
     RecyclerView.Adapter<PlaylistAdapter.PlaylistViewHolder>(), View.OnClickListener {
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaylistViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -36,11 +28,11 @@ class PlaylistAdapter(private val actionListener: SongActionListener) :
             holder.itemView.tag = song
             tvPrimary.text = song.title
             tvSecondary.text = song.artist
-          Glide.with(ivItemImage.context)
-              .load(song.bitmapUri)
-              .placeholder(R.drawable.ic_image)
-              .error(R.drawable.ic_image)
-              .into(ivItemImage)
+            Glide.with(ivItemImage.context)
+                .load(song.bitmapUri)
+                .placeholder(R.drawable.ic_image)
+                .error(R.drawable.ic_image)
+                .into(ivItemImage)
         }
     }
 
@@ -48,7 +40,6 @@ class PlaylistAdapter(private val actionListener: SongActionListener) :
 
     class PlaylistViewHolder(val binding: ListItemBinding) :
         RecyclerView.ViewHolder(binding.root)
-
 
     private val diffCallBack = object : DiffUtil.ItemCallback<Song>() {
         override fun areItemsTheSame(oldItem: Song, newItem: Song): Boolean {
@@ -70,6 +61,4 @@ class PlaylistAdapter(private val actionListener: SongActionListener) :
         val song = v.tag as Song
         actionListener.onSongClick(song)
     }
-
-
 }
