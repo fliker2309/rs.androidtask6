@@ -12,8 +12,10 @@ import com.example.androidtask6.exoplayer.isPlaying
 import com.example.androidtask6.exoplayer.isPrepared
 import com.example.androidtask6.other.Constants.MEDIA_ROOT_ID
 import com.example.androidtask6.other.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class MainViewModel @Inject constructor(
     private val musicServiceConnection: MusicServiceConnection
 ) : ViewModel() {
@@ -27,7 +29,8 @@ class MainViewModel @Inject constructor(
 
     init {
         _mediaItems.postValue(Resource.loading(null))
-        musicServiceConnection.subscribe(MEDIA_ROOT_ID,
+        musicServiceConnection.subscribe(
+            MEDIA_ROOT_ID,
             object : MediaBrowserCompat.SubscriptionCallback() {
                 override fun onChildrenLoaded(
                     parentId: String,
@@ -44,7 +47,8 @@ class MainViewModel @Inject constructor(
                     }
                     _mediaItems.postValue(Resource.success(items))
                 }
-            })
+            }
+        )
     }
 
     fun skipToNextSong() {
@@ -80,7 +84,7 @@ class MainViewModel @Inject constructor(
         super.onCleared()
         musicServiceConnection.unsubscribe(
             MEDIA_ROOT_ID,
-            object : MediaBrowserCompat.SubscriptionCallback() {})
+            object : MediaBrowserCompat.SubscriptionCallback() {}
+        )
     }
-
 }
