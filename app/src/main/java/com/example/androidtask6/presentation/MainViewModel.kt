@@ -5,15 +5,17 @@ import android.support.v4.media.MediaMetadataCompat.METADATA_KEY_TITLE
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.androidtask6.data.entities.Song
-import com.example.androidtask6.exoplayer.MusicServiceConnection
-import com.example.androidtask6.exoplayer.isPlayEnabled
-import com.example.androidtask6.exoplayer.isPlaying
-import com.example.androidtask6.exoplayer.isPrepared
+import com.example.androidtask6.exoplayer.*
 import com.example.androidtask6.other.Constants.MEDIA_ROOT_ID
 import com.example.androidtask6.other.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+private const val UPDATE_PLAYER_POSITION_INTERVAL = 100L
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
@@ -22,12 +24,12 @@ class MainViewModel @Inject constructor(
     private val _mediaItems = MutableLiveData<Resource<List<Song>>>()
     val mediaItems: LiveData<Resource<List<Song>>> = _mediaItems
 
-    val isConnected = musicServiceConnection.isConnected
-    val networkError = musicServiceConnection.networkError
     val curPlayingSong = musicServiceConnection.curPlayingSong
     val playbackState = musicServiceConnection.playbackState
 
     init {
+        updateCurrentPlayerPosition()
+
         _mediaItems.postValue(Resource.loading(null))
         musicServiceConnection.subscribe(
             MEDIA_ROOT_ID,
@@ -77,6 +79,25 @@ class MainViewModel @Inject constructor(
             }
         } else {
             musicServiceConnection.transportControls.playFromMediaId(mediaItem.title, null)
+        }
+    }
+
+    private val _curSongDuration = MutableLiveData<Long>()
+    val curSongDuration: LiveData<Long> = _curSongDuration
+
+    private val _curPlayerPosition = MutableLiveData<Long>()
+    val curPlayerPosition: LiveData<Long> = _curPlayerPosition
+
+    private fun updateCurrentPlayerPosition() {
+        viewModelScope.launch {
+            while (true) {
+                val pos = playbackState.value?.currentPlaybackPosition
+                if (curPlayerPosition.value != pos) {
+                    _curPlayerPosition.postValue(pos!!)
+                    _curSongDuration.postValue(MusicService.curSongDuration)
+                }
+                delay(UPDATE_PLAYER_POSITION_INTERVAL)
+            }
         }
     }
 

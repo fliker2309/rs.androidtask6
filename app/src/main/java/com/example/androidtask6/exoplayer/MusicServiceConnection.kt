@@ -2,7 +2,6 @@ package com.example.androidtask6.exoplayer
 
 import android.content.ComponentName
 import android.content.Context
-import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
@@ -12,16 +11,11 @@ import androidx.lifecycle.MutableLiveData
 import com.example.androidtask6.other.Event
 import com.example.androidtask6.other.Resource
 
-private const val NETWORK_ERROR = "NETWORK_ERROR"
-
 class MusicServiceConnection(
     context: Context
 ) {
     private val _isConnected = MutableLiveData<Event<Resource<Boolean>>>()
     val isConnected: LiveData<Event<Resource<Boolean>>> = _isConnected
-
-    private val _networkError = MutableLiveData<Event<Resource<Boolean>>>()
-    val networkError: LiveData<Event<Resource<Boolean>>> = _networkError
 
     private val _playbackState = MutableLiveData<PlaybackStateCompat?>()
     val playbackState: LiveData<PlaybackStateCompat?> = _playbackState
@@ -94,21 +88,21 @@ class MusicServiceConnection(
             _curPlayingSong.postValue(metadata)
         }
 
-        override fun onSessionEvent(event: String?, extras: Bundle?) {
-            super.onSessionEvent(event, extras)
-            when (event) {
-                NETWORK_ERROR -> _networkError.postValue(
-                    Event(
-                        (
-                            Resource.error(
-                                "Couldn't connect to the server",
-                                null
-                            )
-                            )
-                    )
-                )
-            }
-        }
+        /*   override fun onSessionEvent(event: String?, extras: Bundle?) {
+               super.onSessionEvent(event, extras)
+               when (event) {
+                   NETWORK_ERROR -> _networkError.postValue(
+                       Event(
+                           (
+                               Resource.error(
+                                   "Couldn't connect to the server",
+                                   null
+                               )
+                               )
+                       )
+                   )
+               }
+           }*/
 
         override fun onSessionDestroyed() {
             mediaBrowserConnectionCallback.onConnectionSuspended()

@@ -2,8 +2,6 @@ plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
-    id("androidx.navigation.safeargs.kotlin")
-
 }
 
 android {
@@ -47,12 +45,6 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
-    implementation("androidx.recyclerview:recyclerview:1.2.1")
-
-
-    // navigation
-    implementation("androidx.navigation:navigation-fragment-ktx:2.3.5")
-    implementation("androidx.navigation:navigation-ui-ktx:2.3.5")
 
     // lifecycle
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
@@ -60,6 +52,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
     implementation("androidx.activity:activity-ktx:1.3.1")
+    implementation("androidx.lifecycle:lifecycle-process:2.3.1")
 
     // images
     implementation("com.github.bumptech.glide:glide:4.12.0")

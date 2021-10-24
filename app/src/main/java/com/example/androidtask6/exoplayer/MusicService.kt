@@ -29,7 +29,7 @@ import javax.inject.Inject
 class MusicService : MediaBrowserServiceCompat() {
 
     @Inject
-    lateinit var dataSourceFactory: DefaultDataSourceFactory // work with it
+    lateinit var dataSourceFactory: DefaultDataSourceFactory
 
     @Inject
     lateinit var exoPlayer: SimpleExoPlayer
