@@ -3,7 +3,6 @@ package com.example.androidtask6.ui
 import android.os.Bundle
 import android.support.v4.media.session.PlaybackStateCompat
 import android.widget.SeekBar
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.bumptech.glide.RequestManager
@@ -14,18 +13,18 @@ import com.example.androidtask6.exoplayer.callbacks.toSong
 import com.example.androidtask6.exoplayer.isPlaying
 import com.example.androidtask6.other.Status
 import com.example.androidtask6.presentation.MainViewModel
-import dagger.hilt.android.AndroidEntryPoint
+import org.koin.android.ext.android.get
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
-import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    val glide = get<RequestManager>()
+    private val glide = get<RequestManager>()
 
-    private val mainViewModel by viewModel<MainViewModel>()
+    private val mainViewModel: MainViewModel by viewModel()
 
     private var curPlayingSong: Song? = null
 
@@ -44,63 +43,48 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun subscribeToObservers() {
-        mainViewModel.mediaItems.observe(
-            this,
-            Observer {
-                it?.let { result ->
-                    when (result.status) {
-                        Status.SUCCESS -> {
-                            result.data?.let { songs ->
-                                if (curPlayingSong == null && songs.isNotEmpty()) {
-                                    curPlayingSong = songs[0]
-                                    updateTitleAndSongImage(songs[0])
-                                }
+        mainViewModel.mediaItems.observe(this) {
+            it?.let { result ->
+                when (result.status) {
+                    Status.SUCCESS -> {
+                        result.data?.let { songs ->
+                            if (curPlayingSong == null && songs.isNotEmpty()) {
+                                curPlayingSong = songs[0]
+                                updateTitleAndSongImage(songs[0])
                             }
                         }
-                        else -> Unit
                     }
+                    else -> Unit
                 }
             }
-        )
+        }
 
-        mainViewModel.playbackState.observe(
-            this,
-            Observer {
-                playbackState = it
-                binding.ivPlayPauseDetail.setImageResource(
-                    if (playbackState?.isPlaying == true) R.drawable.ic_pause else R.drawable.ic_play
-                )
-                binding.seekBar.progress = it?.position?.toInt() ?: 0
-            }
-        )
+        mainViewModel.playbackState.observe(this) {
+            playbackState = it
+            binding.ivPlayPauseDetail.setImageResource(
+                if (playbackState?.isPlaying == true) R.drawable.ic_pause else R.drawable.ic_play
+            )
+            binding.seekBar.progress = it?.position?.toInt() ?: 0
+        }
 
-        mainViewModel.curPlayerPosition.observe(
-            this,
-            Observer {
-                if (shouldUpdateSeekbar) {
-                    binding.seekBar.progress = it.toInt()
-                    setCurrentTimeToTextView(it)
-                }
+        mainViewModel.curPlayerPosition.observe(this) {
+            if (shouldUpdateSeekbar) {
+                binding.seekBar.progress = it.toInt()
+                setCurrentTimeToTextView(it)
             }
-        )
+        }
 
-        mainViewModel.curSongDuration.observe(
-            this,
-            Observer {
-                binding.seekBar.max = it.toInt()
-                val dateFormat = SimpleDateFormat("mm:ss", Locale.getDefault())
-                binding.tvSongDuration.text = dateFormat.format(it)
-            }
-        )
+        mainViewModel.curSongDuration.observe(this) {
+            binding.seekBar.max = it.toInt()
+            val dateFormat = SimpleDateFormat("mm:ss", Locale.getDefault())
+            binding.tvSongDuration.text = dateFormat.format(it)
+        }
 
-        mainViewModel.curPlayingSong.observe(
-            this,
-            Observer {
-                if (it == null) return@Observer
-                curPlayingSong = it.toSong()
-                updateTitleAndSongImage(curPlayingSong!!)
-            }
-        )
+        mainViewModel.curPlayingSong.observe(this) {
+            if (it == null) return@observe
+            curPlayingSong = it.toSong()
+            updateTitleAndSongImage(curPlayingSong!!)
+        }
     }
 
     private fun setCurrentTimeToTextView(ms: Long) {

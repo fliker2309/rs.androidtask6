@@ -7,9 +7,8 @@ import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import javax.inject.Inject
 
-class MusicDatabase @Inject constructor(
+class MusicDatabase(
     private val context: Context
 ) {
 

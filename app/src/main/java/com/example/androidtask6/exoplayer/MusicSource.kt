@@ -11,19 +11,18 @@ import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import javax.inject.Inject
 
 class MusicSource(
     private val musicDatabase: MusicDatabase
 ) {
 
-    var songs = emptyList<MediaMetadataCompat>()
+    var songs = listOf<MediaMetadataCompat>()
 
     fun fetchMediaData() {
         val allSongs = musicDatabase.getPlaylist()
         if (allSongs != null) {
             songs = allSongs.map { song ->
-                MediaMetadataCompat.Builder()
+                Builder()
                     .putString(METADATA_KEY_TITLE, song.title)
                     .putString(METADATA_KEY_DISPLAY_TITLE, song.title)
                     .putString(METADATA_KEY_ARTIST, song.artist)
@@ -51,6 +50,7 @@ class MusicSource(
         val desc = MediaDescriptionCompat.Builder()
             .setMediaUri(song.getString((METADATA_KEY_MEDIA_URI)).toUri())
             .setTitle(song.description.title)
+            .setMediaId("Some") //TODO "Some" just for app to work
             .setSubtitle((song.description.subtitle))
             .setIconUri(song.description.iconUri)
             .build()

@@ -10,12 +10,8 @@ import com.example.androidtask6.data.entities.Song
 import com.example.androidtask6.exoplayer.*
 import com.example.androidtask6.other.Constants.MEDIA_ROOT_ID
 import com.example.androidtask6.other.Resource
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import javax.inject.Inject
-
-private const val UPDATE_PLAYER_POSITION_INTERVAL = 100L
 
 class MainViewModel(
     private val musicServiceConnection: MusicServiceConnection
@@ -25,6 +21,12 @@ class MainViewModel(
 
     val curPlayingSong = musicServiceConnection.curPlayingSong
     val playbackState = musicServiceConnection.playbackState
+
+    private val _curSongDuration = MutableLiveData<Long>()
+    val curSongDuration: LiveData<Long> = _curSongDuration
+
+    private val _curPlayerPosition = MutableLiveData<Long>()
+    val curPlayerPosition: LiveData<Long> = _curPlayerPosition
 
     init {
         updateCurrentPlayerPosition()
@@ -81,12 +83,6 @@ class MainViewModel(
         }
     }
 
-    private val _curSongDuration = MutableLiveData<Long>()
-    val curSongDuration: LiveData<Long> = _curSongDuration
-
-    private val _curPlayerPosition = MutableLiveData<Long>()
-    val curPlayerPosition: LiveData<Long> = _curPlayerPosition
-
     private fun updateCurrentPlayerPosition() {
         viewModelScope.launch {
             while (true) {
@@ -106,5 +102,9 @@ class MainViewModel(
             MEDIA_ROOT_ID,
             object : MediaBrowserCompat.SubscriptionCallback() {}
         )
+    }
+
+    companion object {
+        private const val UPDATE_PLAYER_POSITION_INTERVAL = 100L
     }
 }
