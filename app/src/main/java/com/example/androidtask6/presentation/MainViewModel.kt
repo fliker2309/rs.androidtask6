@@ -17,8 +17,7 @@ import javax.inject.Inject
 
 private const val UPDATE_PLAYER_POSITION_INTERVAL = 100L
 
-@HiltViewModel
-class MainViewModel @Inject constructor(
+class MainViewModel(
     private val musicServiceConnection: MusicServiceConnection
 ) : ViewModel() {
     private val _mediaItems = MutableLiveData<Resource<List<Song>>>()

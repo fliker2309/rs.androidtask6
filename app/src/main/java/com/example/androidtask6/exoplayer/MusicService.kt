@@ -25,17 +25,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import javax.inject.Inject
 
-@AndroidEntryPoint
 class MusicService : MediaBrowserServiceCompat() {
 
-    @Inject
-    lateinit var dataSourceFactory: DefaultDataSourceFactory
-
-    @Inject
-    lateinit var exoPlayer: SimpleExoPlayer
-
-    @Inject
-    lateinit var musicSource: MusicSource
+    val exoPlayer = get<SimpleExoPlayer>()
+    val musicSource = get<MusicSource>()
 
     private lateinit var musicNotificationManager: MusicNotificationManager
 
@@ -113,7 +106,7 @@ class MusicService : MediaBrowserServiceCompat() {
         playNow: Boolean
     ) {
         val curSongIndex = if (curPlayingSong == null) 0 else songs.indexOf(itemToPlay)
-        exoPlayer.setMediaSource(musicSource.asMediaSource(dataSourceFactory))
+        exoPlayer.setMediaSource(musicSource.asMediaSource(get<DefaultDataSourceFactory>()))
         exoPlayer.prepare()
         exoPlayer.seekTo(curSongIndex, 0L)
         exoPlayer.playWhenReady = playNow

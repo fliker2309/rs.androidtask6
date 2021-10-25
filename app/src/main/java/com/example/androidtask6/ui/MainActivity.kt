@@ -19,15 +19,13 @@ import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    @Inject
-    lateinit var glide: RequestManager
+    val glide = get<RequestManager>()
 
-    private val mainViewModel: MainViewModel by viewModels()
+    private val mainViewModel by viewModel<MainViewModel>()
 
     private var curPlayingSong: Song? = null
 

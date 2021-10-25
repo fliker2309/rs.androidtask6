@@ -13,7 +13,7 @@ import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import javax.inject.Inject
 
-class MusicSource @Inject constructor(
+class MusicSource(
     private val musicDatabase: MusicDatabase
 ) {
 
