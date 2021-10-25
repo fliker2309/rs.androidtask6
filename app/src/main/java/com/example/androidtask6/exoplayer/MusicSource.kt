@@ -32,6 +32,7 @@ class MusicSource @Inject constructor(
                     .putString(METADATA_KEY_ALBUM_ART_URI, song.bitmapUri)
                     .putString(METADATA_KEY_DISPLAY_SUBTITLE, song.artist)
                     .putString(METADATA_KEY_DISPLAY_DESCRIPTION, song.artist)
+                    .putString(METADATA_KEY_MEDIA_ID, song.mediaId)
                     .build()
             }
         }
@@ -53,6 +54,7 @@ class MusicSource @Inject constructor(
             .setTitle(song.description.title)
             .setSubtitle((song.description.subtitle))
             .setIconUri(song.description.iconUri)
+            .setMediaId(song.description.mediaId)
             .build()
         MediaBrowserCompat.MediaItem(desc, FLAG_PLAYABLE)
     }.toMutableList()

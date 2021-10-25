@@ -3,9 +3,9 @@ package com.example.androidtask6.ui
 import android.os.Bundle
 import android.support.v4.media.session.PlaybackStateCompat
 import android.widget.SeekBar
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.RequestManager
 import com.example.androidtask6.R
 import com.example.androidtask6.data.entities.Song
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var glide: RequestManager
 
-    private val mainViewModel: MainViewModel by viewModels()
+    lateinit var mainViewModel: MainViewModel
 
     private var curPlayingSong: Song? = null
 
@@ -39,7 +39,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        /*    mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)*/
+
+        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         subscribeToObservers()
         initListeners()

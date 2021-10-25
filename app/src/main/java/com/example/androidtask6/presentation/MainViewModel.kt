@@ -18,7 +18,7 @@ import javax.inject.Inject
 private const val UPDATE_PLAYER_POSITION_INTERVAL = 100L
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
+class MainViewModel @Inject constructor (
     private val musicServiceConnection: MusicServiceConnection
 ) : ViewModel() {
     private val _mediaItems = MutableLiveData<Resource<List<Song>>>()
@@ -28,7 +28,7 @@ class MainViewModel @Inject constructor(
     val playbackState = musicServiceConnection.playbackState
 
     init {
-        updateCurrentPlayerPosition()
+     /*   updateCurrentPlayerPosition()*/
 
         _mediaItems.postValue(Resource.loading(null))
         musicServiceConnection.subscribe(
@@ -41,6 +41,7 @@ class MainViewModel @Inject constructor(
                     super.onChildrenLoaded(parentId, children)
                     val items = children.map {
                         Song(
+                            it.mediaId!!,
                             it.description.title.toString(),
                             it.description.subtitle.toString(),
                             it.description.iconUri.toString(),
@@ -88,18 +89,18 @@ class MainViewModel @Inject constructor(
     private val _curPlayerPosition = MutableLiveData<Long>()
     val curPlayerPosition: LiveData<Long> = _curPlayerPosition
 
-    private fun updateCurrentPlayerPosition() {
+   /* private fun updateCurrentPlayerPosition() {
         viewModelScope.launch {
             while (true) {
                 val pos = playbackState.value?.currentPlaybackPosition
                 if (curPlayerPosition.value != pos) {
-                    _curPlayerPosition.postValue(pos!!)
+                    _curPlayerPosition.postValue(pos)
                     _curSongDuration.postValue(MusicService.curSongDuration)
                 }
                 delay(UPDATE_PLAYER_POSITION_INTERVAL)
             }
         }
-    }
+    }*/
 
     override fun onCleared() {
         super.onCleared()

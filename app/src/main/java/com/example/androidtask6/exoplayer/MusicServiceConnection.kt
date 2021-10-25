@@ -10,6 +10,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.androidtask6.other.Event
 import com.example.androidtask6.other.Resource
+import javax.inject.Singleton
+
 
 class MusicServiceConnection(
     context: Context
