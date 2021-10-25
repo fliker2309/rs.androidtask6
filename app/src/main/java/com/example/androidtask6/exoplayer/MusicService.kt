@@ -18,24 +18,16 @@ import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.ext.mediasession.TimelineQueueNavigator
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
-import javax.inject.Inject
+import org.koin.android.ext.android.get
 
-@AndroidEntryPoint
 class MusicService : MediaBrowserServiceCompat() {
 
-    @Inject
-    lateinit var dataSourceFactory: DefaultDataSourceFactory
-
-    @Inject
-    lateinit var exoPlayer: SimpleExoPlayer
-
-    @Inject
-    lateinit var musicSource: MusicSource
+    val exoPlayer = get<SimpleExoPlayer>()
+    val musicSource = get<MusicSource>()
 
     private lateinit var musicNotificationManager: MusicNotificationManager
 
@@ -113,7 +105,7 @@ class MusicService : MediaBrowserServiceCompat() {
         playNow: Boolean
     ) {
         val curSongIndex = if (curPlayingSong == null) 0 else songs.indexOf(itemToPlay)
-        exoPlayer.setMediaSource(musicSource.asMediaSource(dataSourceFactory))
+        exoPlayer.setMediaSource(musicSource.asMediaSource(get<DefaultDataSourceFactory>()))
         exoPlayer.prepare()
         exoPlayer.seekTo(curSongIndex, 0L)
         exoPlayer.playWhenReady = playNow
