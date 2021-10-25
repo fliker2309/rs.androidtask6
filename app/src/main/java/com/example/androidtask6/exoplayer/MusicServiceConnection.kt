@@ -10,8 +10,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.androidtask6.other.Event
 import com.example.androidtask6.other.Resource
-import javax.inject.Singleton
-
 
 class MusicServiceConnection(
     context: Context
@@ -89,22 +87,6 @@ class MusicServiceConnection(
         override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
             _curPlayingSong.postValue(metadata)
         }
-
-        /*   override fun onSessionEvent(event: String?, extras: Bundle?) {
-               super.onSessionEvent(event, extras)
-               when (event) {
-                   NETWORK_ERROR -> _networkError.postValue(
-                       Event(
-                           (
-                               Resource.error(
-                                   "Couldn't connect to the server",
-                                   null
-                               )
-                               )
-                       )
-                   )
-               }
-           }*/
 
         override fun onSessionDestroyed() {
             mediaBrowserConnectionCallback.onConnectionSuspended()

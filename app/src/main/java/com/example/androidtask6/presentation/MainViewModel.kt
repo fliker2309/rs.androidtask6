@@ -7,7 +7,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.androidtask6.data.entities.Song
-import com.example.androidtask6.exoplayer.*
+import com.example.androidtask6.exoplayer.MusicService
+import com.example.androidtask6.exoplayer.MusicServiceConnection
+import com.example.androidtask6.exoplayer.currentPlaybackPosition
+import com.example.androidtask6.exoplayer.isPlayEnabled
+import com.example.androidtask6.exoplayer.isPlaying
+import com.example.androidtask6.exoplayer.isPrepared
 import com.example.androidtask6.other.Constants.MEDIA_ROOT_ID
 import com.example.androidtask6.other.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,12 +29,16 @@ class MainViewModel @Inject constructor (
     private val _mediaItems = MutableLiveData<Resource<List<Song>>>()
     val mediaItems: LiveData<Resource<List<Song>>> = _mediaItems
 
+    private val _curSongDuration = MutableLiveData<Long>()
+    val curSongDuration: LiveData<Long> = _curSongDuration
+
+    private val _curPlayerPosition = MutableLiveData<Long>()
+    val curPlayerPosition: LiveData<Long> = _curPlayerPosition
+
     val curPlayingSong = musicServiceConnection.curPlayingSong
     val playbackState = musicServiceConnection.playbackState
 
     init {
-     /*   updateCurrentPlayerPosition()*/
-
         _mediaItems.postValue(Resource.loading(null))
         musicServiceConnection.subscribe(
             MEDIA_ROOT_ID,
@@ -52,6 +61,7 @@ class MainViewModel @Inject constructor (
                 }
             }
         )
+        updateCurrentPlayerPosition()
     }
 
     fun skipToNextSong() {
@@ -83,13 +93,7 @@ class MainViewModel @Inject constructor (
         }
     }
 
-    private val _curSongDuration = MutableLiveData<Long>()
-    val curSongDuration: LiveData<Long> = _curSongDuration
-
-    private val _curPlayerPosition = MutableLiveData<Long>()
-    val curPlayerPosition: LiveData<Long> = _curPlayerPosition
-
-   /* private fun updateCurrentPlayerPosition() {
+    private fun updateCurrentPlayerPosition() {
         viewModelScope.launch {
             while (true) {
                 val pos = playbackState.value?.currentPlaybackPosition
@@ -100,7 +104,7 @@ class MainViewModel @Inject constructor (
                 delay(UPDATE_PLAYER_POSITION_INTERVAL)
             }
         }
-    }*/
+    }
 
     override fun onCleared() {
         super.onCleared()
