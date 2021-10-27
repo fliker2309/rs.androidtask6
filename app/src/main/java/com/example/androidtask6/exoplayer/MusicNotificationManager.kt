@@ -22,24 +22,17 @@ class MusicNotificationManager(
     private val newSongCallback: () -> Unit
 
 ) {
-
-    private val notificationManager: PlayerNotificationManager
-
-    init {
-        val mediaController = MediaControllerCompat(context, sessionToken)
-
-        notificationManager = PlayerNotificationManager.Builder(
-            context,
-            NOTIFICATION_ID,
-            NOTIFICATION_CHANNEL_ID
-        ).apply {
-            setSmallIconResourceId(R.drawable.ic_music)
-            setChannelNameResourceId(R.string.notification_channel_name)
-            setChannelDescriptionResourceId(R.string.notification_channel_description)
-            setNotificationListener(notificationListener)
-            DescriptionAdapter(mediaController)
-        }.build()
-    }
+    private val mediaController = MediaControllerCompat(context, sessionToken)
+    private val notificationManager: PlayerNotificationManager =
+        PlayerNotificationManager.Builder(context, NOTIFICATION_ID, NOTIFICATION_CHANNEL_ID)
+            .setChannelNameResourceId(R.string.notification_channel_name)
+            .setChannelDescriptionResourceId(R.string.notification_channel_description)
+            .setMediaDescriptionAdapter(DescriptionAdapter(mediaController))
+            .setNotificationListener(notificationListener)
+            .build().apply {
+                setSmallIcon(R.drawable.ic_music)
+                setMediaSessionToken(sessionToken)
+            }
 
     fun showNotification(player: Player) {
         notificationManager.setPlayer(player)
